@@ -1,4 +1,48 @@
-# SQL-Road-accident-project
+# SQL-Road-accident-project - This project is on road accident and it includes topics like group by, joins, cte and stored procedure in it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 -- Question 1
 -- How many accidents have occured in urban area versus rural area?
