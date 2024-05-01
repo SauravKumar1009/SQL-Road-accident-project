@@ -4,30 +4,30 @@
 -- How many accidents have occured in urban area versus rural area?
 -- Method_1
 select
-      Area,
-	  COUNT(Area) as [No of accidents]
+Area,
+COUNT(Area) as [No of accidents]
 from accident
 group by Area;
 
 -- Method_2
 select (select COUNT(Area) from accident where Area = 'Urban') as [Urban Accidents]
-       ,(select COUNT(Area) from accident where Area = 'Rural') as [Rural Accidents]
+,(select COUNT(Area) from accident where Area = 'Rural') as [Rural Accidents]
 
 -- Question 2
 -- Which day of the week has the highest number of accidents?
 -- Method_1
 select top 5 * from accident;
 select top 1 
-      Day,
-	  COUNT(*) as [No of accidents]
+Day,
+COUNT(*) as [No of accidents]
 from accident
 group by Day
 order by [No of accidents] desc;
 
 -- Method_2 ( If there is no Day column in the accident table )
 select top 1
-      datename(weekday,date) as [DayName],
-	  COUNT(*) as [No of accidents]
+datename(weekday,date) as [DayName],
+COUNT(*) as [No of accidents]
 from accident
 group by datename(weekday,date)
 order by [No of accidents] desc;
@@ -35,8 +35,8 @@ order by [No of accidents] desc;
 -- Question 3
 -- What is the average age of vehicles involved in accidents based on their type?
 select  
-      VehicleType
-	  ,AVG(isnull(AgeVehicle,0)) as [Average Age of Vehicle]
+VehicleType
+,AVG(isnull(AgeVehicle,0)) as [Average Age of Vehicle]
 from vehicle
 group by VehicleType
 order by [Average Age of Vehicle] desc;
@@ -44,8 +44,8 @@ order by [Average Age of Vehicle] desc;
 -- Question 4
 -- Can we identify any trends in accidents based on the age of vehicles involved?
 select  
-       isnull(AgeVehicle,0) as [Age of Vehicle]
-       ,COUNT(AccidentIndex) as [No of accidents]
+isnull(AgeVehicle,0) as [Age of Vehicle]
+,COUNT(AccidentIndex) as [No of accidents]
 from vehicle
 group by AgeVehicle 
 order by [No of accidents] desc;
@@ -55,9 +55,9 @@ order by [No of accidents] desc;
 -- Severe accidents are accidents which belongs to 'Fatal' and 'Serious' severity.
 -- Method_1
 select distinct
-       WeatherConditions
-	   ,Severity
-	   ,COUNT(Severity) as [Count of accidents]
+WeatherConditions
+,Severity
+,COUNT(Severity) as [Count of accidents]
 from accident
 where Severity = 'Fatal' or Severity = 'Serious'
 group by WeatherConditions,Severity;
@@ -66,9 +66,9 @@ group by WeatherConditions,Severity;
 with cte as
 (
 select 
-      Severity
-	  ,WeatherConditions
-	  ,COUNT(Severity) as [No of accidents]
+Severity
+,WeatherConditions
+,COUNT(Severity) as [No of accidents]
 from accident
 group by Severity,WeatherConditions)
 select * from 
@@ -95,20 +95,20 @@ order by [No of accidents];
    -- light condition = 'Daylight',
    -- Point of impact = 'Offside'
 
-   create procedure spAverageageVehicle
-   (
-   @Lightcondition varchar(50),
-   @Pointofimpact varchar(50)
-   )
-   as 
-   begin 
-   select AVG(AgeVehicle) as [Average age of Vehicle] 
-   from vehicle v inner join accident a
-   on v.AccidentIndex = a.AccidentIndex
-   where a.LightConditions = @Lightcondition
-   and v.PointImpact = @Pointofimpact
-   end
+create procedure spAverageageVehicle
+(
+@Lightcondition varchar(50),
+@Pointofimpact varchar(50)
+)
+as 
+begin 
+select AVG(AgeVehicle) as [Average age of Vehicle] 
+from vehicle v inner join accident a
+on v.AccidentIndex = a.AccidentIndex
+where a.LightConditions = @Lightcondition
+and v.PointImpact = @Pointofimpact
+end
    
-   execute spAverageageVehicle 'Daylight','Offside';
+execute spAverageageVehicle 'Daylight','Offside';
 
 
